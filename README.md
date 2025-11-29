@@ -49,39 +49,28 @@ It includes a **Parent/Student dashboard**, **Therapist dashboard**, and **compl
 
 ## 📁 Project Structure
 
-cognitive-project/
-│── backend/ # Flask backend (API, auth, session DB)
+cognitive-project
 
+
+│── backend/ # Flask backend (API, auth, session DB)
+│ ├── app.py # Main server file (Flask + JWT)
+│ ├── requirements.txt # Python dependencies
 
 
 │── frontend/
 
-
 │ ├── public/
-
-
 │ ├── src/
-
 │ │ ├── App.jsx
-
 │ │ ├── Auth.jsx
-
 │ │ ├── MemoryGame.jsx
-
 │ │ ├── AttentionGame.jsx
-
 │ │ ├── Sessions.jsx
-
 │ │ ├── Feedback.jsx
-
 │ │ ├── TherapistDashboard.jsx
-
 │ │ ├── api.js
-
 │ │ └── index.css
-
 │ ├── package.json
-
 │ └── vite.config.js
 
 
