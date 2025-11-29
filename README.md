@@ -132,17 +132,25 @@ Feedback stored locally
 Auth token in LocalStorage
 
 🖼️ Application Screenshots (Grid View)
-🔐 Login & 🎮 Game Menu
-Login Screen	Game Menu
-<img src="frontend/src/assets/login.png" width="350"/>	<img src="frontend/src/assets/menu.png" width="350"/>
 
-🍎 Memory Game & 🎨 Attention Game
-Memory Game	Attention Game
-<img src="frontend/src/assets/memory.png" width="350"/>	<img src="frontend/src/assets/attention.png" width="350"/>
+### 🔐 Login & 🎮 Game Menu
+| Login Screen | Game Menu |
+|--------------|-----------|
+| <img src="frontend/src/assets/login.png" width="350"/> | <img src="frontend/src/assets/menu.png" width="350"/> |
 
-📊 Sessions Dashboard
-Sessions History
-<img src="frontend/src/assets/sessions.png" width="500"/>
+---
+
+### 🍎 Memory Game & 🎨 Attention Game
+| Memory Game | Attention Game |
+|-------------|----------------|
+| <img src="frontend/src/assets/memory.png" width="350"/> | <img src="frontend/src/assets/attention.png" width="350"/> |
+
+---
+
+### 📊 Sessions Dashboard
+| Sessions History |
+|------------------|
+| <img src="frontend/src/assets/sessions.png" width="500"/> |
 
 📬 Contact
 For queries, improvements, or collaborations:
