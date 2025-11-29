@@ -72,7 +72,7 @@ It includes a **Parent/Student dashboard**, **Therapist dashboard**, and **compl
 ## 📦 Installation & Running
 
 ### 🔧 Backend
-```bash
+
 cd backend
 pip install -r requirements.txt
 python app.py
@@ -80,11 +80,12 @@ Backend runs at:
 📌 http://127.0.0.1:5000
 
 🖥️ Frontend
-bash
-Copy code
+
+
 cd frontend
 npm install
-npm run dev
+npm run dev 
+
 Frontend runs at:
 📌 http://localhost:5173
 
