@@ -1,93 +1,125 @@
-🧠 Home-Cogniplay
-Computerized Cognitive Retraining Program for Home-Training of Children with Disabilities
+🧠 Home-Cogniplay  
+*Computerized Cognitive Retraining Program for Home-Training of Children with Disabilities*
 
-Home-Cogniplay is a modern web-based cognitive training platform designed to help children improve their memory, attention, focus, and reaction skills through scientifically inspired games.
-It includes a parent/student dashboard, a therapist dashboard, and complete session tracking.
+Home-Cogniplay is a modern web-based cognitive training platform designed to help children improve **memory, attention, focus, and reaction skills** through scientifically inspired games.  
+It includes a **Parent/Student dashboard**, **Therapist dashboard**, and **complete session tracking**.
 
-🚀 Features
-🎮 Cognitive Games
+---
 
-Memory Game
-Improve visual memory by matching pairs of fruits. Difficulty affects number of pairs.
+## 🚀 Features
 
-Attention Game
-Improve focus by identifying the odd-colored block. Increasing difficulty expands the grid.
+### 🎮 Cognitive Games
+#### **Memory Game**
+- Match similar fruit cards  
+- Improves visual memory and recall  
+- Difficulty increases number of card pairs  
 
-👨‍🏫 Therapist Dashboard
+#### **Attention Game**
+- Identify the odd-colored block  
+- Improves attention, reaction time, and focus  
+- Difficulty increases grid size  
 
-View progress of all users
+---
 
-Analyze average mistakes, performance trend, and latest sessions
+## 👨‍🏫 Therapist Dashboard  
+- View performance of all users  
+- Analyze:
+  - Average mistakes  
+  - Improvement trend  
+  - Recent sessions  
+- View complete session history in a structured table  
 
-View all recorded sessions in a filtered table
+---
 
-👪 Parent / Student Dashboard
+## 👪 Parent / Student Dashboard
+- Choose a game  
+- Select difficulty  
+- Play games and receive **performance feedback**  
+- Review personal session history  
 
-Choose game
+---
 
-Select difficulty
+## 📨 Feedback System
+- Users can submit in-app feedback  
+- Feedback stored locally in browser  
+- Optional email support  
+  - Sends feedback to **manojkurubhas0622@gmail.com**
 
-Play and receive post-game performance feedback
+---
 
-Track personal sessions
+## 📁 Project Structure
 
-📨 Feedback System
-
-Users can submit feedback
-
-View previously saved feedback
-
-Feedback stored locally in browser
-
-Optional email sending support (manojkurubhas0622@gmail.com
-)
-
-📁 Project Structure
 cognitive-project/
-│── backend/                # Flask backend (API, authentication, session storage)
+│── backend/ # Flask backend (API, auth, session DB)
+
+
+
 │── frontend/
-│     ├── public/
-│     ├── src/
-│     │     ├── App.jsx
-│     │     ├── Auth.jsx
-│     │     ├── MemoryGame.jsx
-│     │     ├── AttentionGame.jsx
-│     │     ├── Sessions.jsx
-│     │     ├── Feedback.jsx
-│     │     ├── TherapistDashboard.jsx
-│     │     ├── api.js
-│     │     └── index.css
-│     ├── package.json
-│     └── vite.config.js
+
+
+│ ├── public/
+
+
+│ ├── src/
+
+│ │ ├── App.jsx
+
+│ │ ├── Auth.jsx
+
+│ │ ├── MemoryGame.jsx
+
+│ │ ├── AttentionGame.jsx
+
+│ │ ├── Sessions.jsx
+
+│ │ ├── Feedback.jsx
+
+│ │ ├── TherapistDashboard.jsx
+
+│ │ ├── api.js
+
+│ │ └── index.css
+
+│ ├── package.json
+
+│ └── vite.config.js
+
+
 │── .gitignore
+
+
 │── README.md
 
-🛠️ Tech Stack
-Frontend
 
-React (Vite)
+│── LICENSE
 
-CSS (Custom styling)
 
-LocalStorage for feedback and auth persistence
 
-Backend
 
-Flask (Python)
+## 🛠️ Tech Stack
 
-JWT authentication
+### **Frontend**
+- React (Vite)
+- Custom CSS Styling
+- LocalStorage (auth + feedback)
 
-SQLite / Any SQL DB for session storage
+### **Backend**
+- Flask (Python)
+- JWT Authentication
+- SQLite / Any SQL DB for storing sessions
 
-📦 Installation & Running
-🔧 Backend
+---
+
+## 📦 Installation & Running
+
+### 🔧 Backend
+```bash
 cd backend
 pip install -r requirements.txt
 python app.py
 
-
-The backend runs at:
-http://127.0.0.1:5000
+Backend runs at:
+📌 http://127.0.0.1:5000
 
 🖥️ Frontend
 cd frontend
@@ -95,86 +127,69 @@ npm install
 npm run dev
 
 
-The frontend runs at:
-http://localhost:5173
+Frontend runs at:
+📌 http://localhost:5173
 
 📊 Game Logic Overview
-Memory Game
+🧩 Memory Game
 
-Cards are randomized each round
+Randomized cards each round
 
-Matching pairs increases score
+Score increases when pairs match
 
-Wrong selections increase mistake count
+Mistakes counted on mismatches
 
-End-of-game reward includes:
+End-of-game summary shows:
 
-Total time taken
+⏱️ Time taken
 
-Number of correct pairs
+✔️ Correct pairs
 
-Performance summary
+⭐ Performance summary
 
-Attention Game
+🎯 Attention Game
 
-Identify the odd-colored block
+Find the odd-colored block
 
-Grid size increases with higher difficulty
+Grid scales with difficulty
 
 Tracks:
 
-Correct detections
+✔️ Correct selections
 
-Mistakes
+❌ Mistakes
 
-Average reaction time per correct selection
+⏱️ Average reaction time
 
-Game summary shown after finishing
+Summary shown after finishing
 
 💾 Data Storage
 Backend
 
-Sessions stored in the database
+Stores all session history
 
-Therapist analysis uses:
-
-mistake patterns
-
-averages
-
-improvement trend
+Used for therapist analysis
 
 Frontend
 
-Feedback stored locally using localStorage
+Feedback is saved locally
 
-🖼️ Screenshots 
-## 🖼️ Application Screenshots (Grid View)
-Below is a quick visual overview of key screens from **Home-Cogniplay**:
+Auth token stored in LocalStorage
 
-### 🔐 Login & 🎮 Game Menu
-| Login Screen | Game Menu |
-|--------------|-----------|
-| <img src="frontend\src\assets\login.png" width="350"/> | <img src="frontend/src/assets/menu.png" width="350"/> |
-
-### 🍎 Memory Game & 🎨 Attention Game
-| Memory Game | Attention Game |
-|-------------|----------------|
-| <img src="frontend/src/assets/memory.png" width="350"/> | <img src="frontend/src/assets/attention.png" width="350"/> |
-
-### 📊 Sessions Dashboard
-
-| Sessions History |
-|------------------|
-| <img src="frontend/src/assets/sessions.png" width="500"/> |
-
-
+🖼️ Application Screenshots (Grid View)
+🔐 Login & 🎮 Game Menu
+Login Screen	Game Menu
+<img src="frontend/src/assets/login.png" width="350"/>	<img src="frontend/src/assets/menu.png" width="350"/>
+🍎 Memory Game & 🎨 Attention Game
+Memory Game	Attention Game
+<img src="frontend/src/assets/memory.png" width="350"/>	<img src="frontend/src/assets/attention.png" width="350"/>
+📊 Sessions Dashboard
+Sessions History
+<img src="frontend/src/assets/sessions.png" width="500"/>
 📬 Contact
 
-For queries or improvements:
+For queries, improvements, or collaborations:
 📧 manojkurubhas0622@gmail.com
 
 📄 License
-
-This project can include an MIT License.
-Ask me if you want a pre-written LICENSE file.
+This project uses the MIT License \
