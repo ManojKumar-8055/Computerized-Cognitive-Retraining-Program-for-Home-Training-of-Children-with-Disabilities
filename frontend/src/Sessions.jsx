@@ -1,38 +1,53 @@
-// frontend/src/Sessions.jsx
 import { useEffect, useState } from "react";
-import { listSessions } from "./api";
+import axios from "axios";
 
 export default function Sessions({ token }) {
   const [sessions, setSessions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (!token) return;
-    listSessions(token)
-      .then(res => setSessions(res.data))
-      .catch(err => console.log(err));
+    axios.get("http://127.0.0.1:5000/api/sessions", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(res => {
+        setSessions(res.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        setError(err.response?.data?.msg || "Error fetching sessions");
+        setLoading(false);
+      });
   }, [token]);
 
-  if (!sessions.length) return <p style={{ textAlign: "center", marginTop: "20px" }}>No sessions yet.</p>;
+  if (loading) return <p>Loading sessions...</p>;
+  if (error) return <div className="error-message">{error}</div>;
+  if (!sessions.length) return <p>No sessions recorded yet.</p>;
 
   return (
-    <div style={{ textAlign: "center", marginTop: "20px" }}>
-      <h2>Past Game Sessions</h2>
-      <table style={{ margin: "0 auto", borderCollapse: "collapse", width: "80%", maxWidth: "600px" }}>
+    <div className="app-card">
+      <h2>All Game Sessions</h2>
+      <table className="table">
         <thead>
-          <tr style={{ backgroundColor: "#4a90e2", color: "#fff" }}>
-            <th style={{ padding: "10px", border: "1px solid #ddd" }}>Game Type</th>
-            <th style={{ padding: "10px", border: "1px solid #ddd" }}>Score</th>
-            <th style={{ padding: "10px", border: "1px solid #ddd" }}>Duration (s)</th>
-            <th style={{ padding: "10px", border: "1px solid #ddd" }}>Date</th>
+          <tr>
+            <th>Username</th>
+            <th>Game Type</th>
+            <th>Score</th>
+            <th>Mistakes</th>
+            <th>Duration (s)</th>
+            <th>Date</th>
           </tr>
         </thead>
         <tbody>
-          {sessions.map((s, idx) => (
-            <tr key={s.id} style={{ backgroundColor: idx % 2 === 0 ? "#f9f9f9" : "#fff" }}>
-              <td style={{ padding: "8px", border: "1px solid #ddd" }}>{s.game_type}</td>
-              <td style={{ padding: "8px", border: "1px solid #ddd" }}>{s.score}</td>
-              <td style={{ padding: "8px", border: "1px solid #ddd" }}>{s.duration}</td>
-              <td style={{ padding: "8px", border: "1px solid #ddd" }}>{new Date(s.created_at).toLocaleString()}</td>
+          {sessions.map(s => (
+            <tr key={s.id}>
+              <td>{s.user}</td>
+              <td>{s.game_type}</td>
+              <td>{s.score}</td>
+              <td>{s.mistakes}</td>
+              <td>{s.duration}</td>
+              <td>{new Date(s.created_at).toLocaleString()}</td>
             </tr>
           ))}
         </tbody>

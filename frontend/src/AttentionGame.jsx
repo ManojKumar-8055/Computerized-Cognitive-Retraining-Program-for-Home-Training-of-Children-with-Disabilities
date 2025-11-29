@@ -1,71 +1,122 @@
 import { useState, useEffect } from "react";
 import { createSession } from "./api";
 
-export default function AttentionGame({ token, onFinish }) {
+export default function AttentionGame({ token, difficulty = "easy", onFinish }) {
   const [gridSize, setGridSize] = useState(2);
   const [oddIndex, setOddIndex] = useState(0);
   const [score, setScore] = useState(0);
-  const [startTime, setStartTime] = useState(Date.now());
+  const [mistakes, setMistakes] = useState(0);
+  const [roundStartTime, setRoundStartTime] = useState(Date.now());
+  const [roundTimes, setRoundTimes] = useState([]);
+  const [gameFinished, setGameFinished] = useState(false);
 
-  const nextRound = () => {
-    const total = gridSize * gridSize;
-    setOddIndex(Math.floor(Math.random() * total));
+  // Color schemes per difficulty
+  const colorSchemes = {
+    easy: { base: "rgba(250, 167, 100, 1)", odd: "rgba(255, 224, 120, 1)" },
+    medium: { base: "rgba(250, 167, 100, 0.8)", odd: "rgba(250, 167, 100, 1)" },
+    hard: { base: "rgba(250, 167, 100, 0.9)", odd: "rgba(250, 167, 100, 1)" },
   };
 
   useEffect(() => {
+    setGridSize(difficulty === "easy" ? 2 : difficulty === "medium" ? 3 : 4);
+    setRoundStartTime(Date.now());
+    setScore(0);
+    setMistakes(0);
+    setRoundTimes([]);
+    setGameFinished(false);
     nextRound();
-  }, [gridSize]);
+  }, [difficulty]);
+
+  const nextRound = () => {
+    setOddIndex(Math.floor(Math.random() * gridSize * gridSize));
+    setRoundStartTime(Date.now());
+  };
 
   const handleClick = (idx) => {
+    if (gameFinished) return;
+
+    const roundTime = (Date.now() - roundStartTime) / 1000; // seconds
     if (idx === oddIndex) {
-      setScore(s => s + 1);
-      if (gridSize < 6) setGridSize(g => g + 1); // increase difficulty
+      setScore((s) => s + 1);
+      setRoundTimes((prev) => [...prev, roundTime]);
       nextRound();
+    } else {
+      setMistakes((m) => m + 1);
     }
   };
 
   const finishGame = () => {
-    const duration = Math.round((Date.now() - startTime) / 1000);
+    setGameFinished(true);
+
+    const totalTime = roundTimes.reduce((a, b) => a + b, 0);
+
     if (token) {
-      createSession(token, "attention", score, duration)
+      createSession(token, "attention", score, Math.round(totalTime), mistakes)
         .then(() => console.log("Attention session saved"))
-        .catch(err => console.log(err));
+        .catch(console.log);
     }
-    if (onFinish) onFinish(); // back to menu
   };
 
+  const totalTime = roundTimes.reduce((a, b) => a + b, 0);
+  const avgTime = roundTimes.length ? (totalTime / roundTimes.length).toFixed(2) : 0;
+
+  const colors = colorSchemes[difficulty];
+
   return (
-    <div className="container">
-      <h2>Find the Odd Color</h2>
-      <p>Score: {score}</p>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: `repeat(${gridSize}, 60px)`,
-          gap: "5px",
-          marginTop: "1rem",
-          justifyContent: "center"
-        }}
-      >
-        {Array.from({ length: gridSize * gridSize }).map((_, idx) => {
-          const base = "rgb(100, 150, 250)";
-          const odd = "rgb(120, 170, 255)";
-          return (
+    <div className="app-card">
+      <h2>Find the Odd Color - {difficulty}</h2>
+      <p style={{ marginBottom: "1rem", fontStyle: "italic", color: "#475569" }}>
+        Click the cell with a slightly different color
+      </p>
+
+      {!gameFinished ? (
+        <div
+          className="game-grid"
+          style={{ gridTemplateColumns: `repeat(${gridSize}, 60px)` }}
+        >
+          {Array.from({ length: gridSize * gridSize }).map((_, idx) => (
             <div
               key={idx}
               onClick={() => handleClick(idx)}
-              style={{
-                width: "60px",
-                height: "60px",
-                backgroundColor: idx === oddIndex ? odd : base,
-                cursor: "pointer",
-                borderRadius: "8px",
-              }}
+              className="attention-cell"
+              style={{ backgroundColor: idx === oddIndex ? colors.odd : colors.base }}
             />
-          );
-        })}
-      </div>
-      <button style={{ marginTop: "1rem" }} onClick={finishGame}>Back to Menu</button>
+          ))}
+        </div>
+      ) : (
+        <div
+          style={{
+            marginTop: "1.5rem",
+            background: "#f1f5f9",
+            padding: "1rem 1.5rem",
+            borderRadius: "12px",
+            textAlign: "left",
+            color: "#1e293b",
+          }}
+        >
+          <h3 style={{ marginBottom: "0.5rem" }}>Game Results</h3>
+          <p>Total Correct Selections: <strong>{score}</strong></p>
+          <p>Total Mistakes: <strong>{mistakes}</strong></p>
+          <p>Total Time: <strong>{totalTime.toFixed(2)} s</strong></p>
+          <p>Average Time per Correct Selection: <strong>{avgTime} s</strong></p>
+        </div>
+      )}
+
+      <button
+        onClick={finishGame}
+        style={{ marginTop: "1.5rem" }}
+        disabled={gameFinished}
+      >
+        Finish
+      </button>
+      {gameFinished && (
+        <button
+          onClick={onFinish}
+          style={{ marginTop: "1rem", background: "#3b82f6" }}
+        >
+          Back to Menu
+        </button>
+      )}
     </div>
   );
 }

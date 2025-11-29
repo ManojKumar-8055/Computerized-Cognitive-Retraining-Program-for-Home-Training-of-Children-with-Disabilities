@@ -1,21 +1,26 @@
 import axios from "axios";
 
-const API_BASE = "http://127.0.0.1:5000"; // your Flask backend URL
+const BASE = import.meta.env.VITE_API_URL || "http://127.0.0.1:5000";
 
-export const register = (username, password) =>
-  axios.post(`${API_BASE}/auth/register`, { username, password });
+
+export const register = (username, password, role = "parent") =>
+  axios.post(`${BASE}/auth/register`, { username, password, role });
 
 export const login = (username, password) =>
-  axios.post(`${API_BASE}/auth/login`, { username, password });
+  axios.post(`${BASE}/auth/login`, { username, password });
 
-export const createSession = (token, game_type, score, duration) =>
+export const createSession = (token, game_type, score, duration, mistakes = 0) =>
   axios.post(
-    `${API_BASE}/api/sessions`,
-    { game_type, score, duration },
+    `${BASE}/api/sessions`,
+    { game_type, score, duration, mistakes },
     { headers: { Authorization: `Bearer ${token}` } }
   );
 
 export const listSessions = (token) =>
-  axios.get(`${API_BASE}/api/sessions`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  axios.get(`${BASE}/api/sessions`, { headers: { Authorization: `Bearer ${token}` } });
+
+export const listUsers = (token) =>
+  axios.get(`${BASE}/api/users`, { headers: { Authorization: `Bearer ${token}` } });
+
+export const analyzeUser = (token, username) =>
+  axios.get(`${BASE}/api/analysis/${encodeURIComponent(username)}`, { headers: { Authorization: `Bearer ${token}` } });

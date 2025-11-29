@@ -3,69 +3,243 @@ import MemoryGame from "./MemoryGame";
 import AttentionGame from "./AttentionGame";
 import Auth from "./Auth";
 import Sessions from "./Sessions";
+import Feedback from "./Feedback";
 
 export default function App() {
-  const [token, setToken] = useState(null);  // start without token
-  const [screen, setScreen] = useState("auth"); // login/register
-  const [gamescreen, setGameScreen] = useState("menu"); // menu, memory, attention, sessions
+  const [token, setToken] = useState(null);
+  const [role, setRole] = useState(null);
+  const [screen, setScreen] = useState("auth"); 
+  const [nextGame, setNextGame] = useState(null);
+  const [difficulty, setDifficulty] = useState("easy");
+  const [showFeedback, setShowFeedback] = useState(false);
 
-  // Show Auth page
+  // ------------------- AUTH SCREEN -------------------
   if (screen === "auth") {
     return (
-      <Auth
-        setToken={(t) => {
-          setToken(t);
-          localStorage.setItem("token", t);
-          setScreen("menu"); // go to main menu
-        }}
-      />
+      <>
+        <Auth
+          setToken={setToken}
+          setRole={setRole}
+          onLogin={() => setScreen("menu")}
+        />
+        {showFeedback && (
+          <Feedback
+            visible={showFeedback}
+            onClose={() => setShowFeedback(false)}
+          />
+        )}
+      </>
     );
   }
 
-  // Show selected game or sessions
-  if (gamescreen === "memory") 
-    return <MemoryGame token={token} onFinish={() => setGameScreen("menu")} />;
-  if (gamescreen === "attention") 
-    return <AttentionGame token={token} onFinish={() => setGameScreen("menu")} />;
-  if (gamescreen === "sessions")
+  // ------------------- THERAPIST DASHBOARD -------------------
+  if (role === "therapist") {
     return (
-      <div style={{ textAlign: "center", marginTop: "20px" }}>
-        <button
-          style={{ marginBottom: "15px", padding: "10px 20px" }}
-          onClick={() => setGameScreen("menu")}
-        >
-          Back to Menu
-        </button>
-        <Sessions token={token} />
-      </div>
-    );
+      <div className="app-card">
+        <h1>Therapist Dashboard</h1>
 
-  // Main menu
-  return (
-    <div className="container" style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>Cognitive Games</h1>
-      <div style={{ display: "flex", flexDirection: "column", gap: "15px", marginTop: "20px", alignItems: "center" }}>
-        <button style={{ width: "200px", padding: "10px", fontSize: "16px" }} onClick={() => setGameScreen("memory")}>
-          Play Memory
-        </button>
-        <button style={{ width: "200px", padding: "10px", fontSize: "16px" }} onClick={() => setGameScreen("attention")}>
-          Play Attention
-        </button>
-        <button style={{ width: "200px", padding: "10px", fontSize: "16px", backgroundColor: "#4a90e2", color: "#fff" }} 
-                onClick={() => setGameScreen("sessions")}>
-          View Scores
-        </button>
-        <button
-          style={{ width: "200px", padding: "10px", fontSize: "16px", backgroundColor: "#e24a4a", color: "#fff" }}
-          onClick={() => {
-            localStorage.removeItem("token");
-            setToken(null);
-            setScreen("auth"); // back to login
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "15px",
+            flexWrap: "wrap",
           }}
         >
-          Logout
-        </button>
+          <button onClick={() => setScreen("sessions")}>View All Sessions</button>
+          <button
+            onClick={() => {
+              setToken(null);
+              setRole(null);
+              setScreen("auth");
+            }}
+          >
+            Logout
+          </button>
+          <button onClick={() => setShowFeedback(true)}>Give Feedback</button>
+        </div>
+
+        {screen === "sessions" && <Sessions token={token} />}
+
+        {showFeedback && (
+          <Feedback
+            visible={showFeedback}
+            onClose={() => setShowFeedback(false)}
+          />
+        )}
       </div>
-    </div>
-  );
+    );
+  }
+
+  // ------------------- PARENT/STUDENT DASHBOARD -------------------
+  if (role === "parent") {
+    // ----- DIFFICULTY SELECTION SCREEN -----
+    if (screen === "difficulty") {
+      return (
+        <div className="app-card">
+          <h2>
+            Select Difficulty for{" "}
+            {nextGame
+              ? nextGame.charAt(0).toUpperCase() + nextGame.slice(1)
+              : ""}
+          </h2>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "15px",
+              alignItems: "center",
+              marginTop: "25px",
+            }}
+          >
+            <button
+              style={{ width: "180px" }}
+              onClick={() => {
+                setDifficulty("easy");
+                setScreen(nextGame);
+              }}
+            >
+              Easy
+            </button>
+            <button
+              style={{ width: "180px" }}
+              onClick={() => {
+                setDifficulty("medium");
+                setScreen(nextGame);
+              }}
+            >
+              Medium
+            </button>
+            <button
+              style={{ width: "180px" }}
+              onClick={() => {
+                setDifficulty("hard");
+                setScreen(nextGame);
+              }}
+            >
+              Hard
+            </button>
+          </div>
+
+          <button
+            onClick={() => setScreen("menu")}
+            style={{ marginTop: "20px", width: "180px", background: "#ef4444" }}
+          >
+            Back to Menu
+          </button>
+
+          {showFeedback && (
+            <Feedback
+              visible={showFeedback}
+              onClose={() => setShowFeedback(false)}
+            />
+          )}
+        </div>
+      );
+    }
+
+    // ----- MEMORY GAME -----
+    if (screen === "memory") {
+      return (
+        <>
+          <MemoryGame
+            token={token}
+            difficulty={difficulty}
+            onFinish={() => setScreen("menu")}
+          />
+          {showFeedback && (
+            <Feedback
+              visible={showFeedback}
+              onClose={() => setShowFeedback(false)}
+            />
+          )}
+        </>
+      );
+    }
+
+    // ----- ATTENTION GAME -----
+    if (screen === "attention") {
+      return (
+        <>
+          <AttentionGame
+            token={token}
+            difficulty={difficulty}
+            onFinish={() => setScreen("menu")}
+          />
+          {showFeedback && (
+            <Feedback
+              visible={showFeedback}
+              onClose={() => setShowFeedback(false)}
+            />
+          )}
+        </>
+      );
+    }
+
+    // ----- GAMES MENU -----
+    return (
+      <div className="app-card">
+        <h1>Home-Cogniplay</h1>
+        <h3>Select a Cognitive Game</h3>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "20px",
+            alignItems: "center",
+            marginTop: "30px",
+          }}
+        >
+          <button
+            style={{ width: "220px" }}
+            onClick={() => {
+              setNextGame("memory");
+              setScreen("difficulty");
+            }}
+          >
+            Play Memory
+          </button>
+
+          <button
+            style={{ width: "220px" }}
+            onClick={() => {
+              setNextGame("attention");
+              setScreen("difficulty");
+            }}
+          >
+            Play Attention
+          </button>
+
+          <button
+            style={{ width: "220px", background: "#ef4444" }}
+            onClick={() => {
+              setToken(null);
+              setRole(null);
+              setScreen("auth");
+            }}
+          >
+            Logout
+          </button>
+
+          <button
+            style={{ width: "220px" }}
+            onClick={() => setShowFeedback(true)}
+          >
+            Give Feedback
+          </button>
+        </div>
+
+        {showFeedback && (
+          <Feedback
+            visible={showFeedback}
+            onClose={() => setShowFeedback(false)}
+          />
+        )}
+      </div>
+    );
+  }
+
+  return null;
 }
