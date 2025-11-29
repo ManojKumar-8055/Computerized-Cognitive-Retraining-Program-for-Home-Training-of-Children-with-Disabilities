@@ -1,4 +1,4 @@
-🧠 Home-Cogniplay  
+# 🧠 Home-Cogniplay  
 *Computerized Cognitive Retraining Program for Home-Training of Children with Disabilities*
 
 Home-Cogniplay is a modern web-based cognitive training platform designed to help children improve **memory, attention, focus, and reaction skills** through scientifically inspired games.  
@@ -49,8 +49,11 @@ It includes a **Parent/Student dashboard**, **Therapist dashboard**, and **compl
 
 ## 📁 Project Structure
 
-Project Structure
-<img src="c:\Users\Admin\Pictures\Screenshots\Screenshot (52).png" width="500"/>
+<p align="center">
+  <img src="frontend/src/assets/projectStructure.png" width="700"/>
+</p>
+
+---
 
 ## 🛠️ Tech Stack
 
@@ -73,22 +76,20 @@ Project Structure
 cd backend
 pip install -r requirements.txt
 python app.py
-
 Backend runs at:
 📌 http://127.0.0.1:5000
 
 🖥️ Frontend
+bash
+Copy code
 cd frontend
 npm install
 npm run dev
-
-
 Frontend runs at:
 📌 http://localhost:5173
 
 📊 Game Logic Overview
 🧩 Memory Game
-
 Randomized cards each round
 
 Score increases when pairs match
@@ -104,7 +105,6 @@ End-of-game summary shows:
 ⭐ Performance summary
 
 🎯 Attention Game
-
 Find the odd-colored block
 
 Grid scales with difficulty
@@ -121,31 +121,31 @@ Summary shown after finishing
 
 💾 Data Storage
 Backend
-
 Stores all session history
 
 Used for therapist analysis
 
 Frontend
+Feedback stored locally
 
-Feedback is saved locally
-
-Auth token stored in LocalStorage
+Auth token in LocalStorage
 
 🖼️ Application Screenshots (Grid View)
 🔐 Login & 🎮 Game Menu
 Login Screen	Game Menu
 <img src="frontend/src/assets/login.png" width="350"/>	<img src="frontend/src/assets/menu.png" width="350"/>
+
 🍎 Memory Game & 🎨 Attention Game
 Memory Game	Attention Game
 <img src="frontend/src/assets/memory.png" width="350"/>	<img src="frontend/src/assets/attention.png" width="350"/>
+
 📊 Sessions Dashboard
 Sessions History
 <img src="frontend/src/assets/sessions.png" width="500"/>
-📬 Contact
 
+📬 Contact
 For queries, improvements, or collaborations:
 📧 manojkurubhas0622@gmail.com
 
 📄 License
-This project uses the MIT License \
+This project uses the MIT License.
