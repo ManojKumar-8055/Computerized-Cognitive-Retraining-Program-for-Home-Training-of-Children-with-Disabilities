@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { formatTimestampToLocal } from "./services/date";
+
 
 export default function Sessions({ token }) {
   const [sessions, setSessions] = useState([]);
@@ -47,7 +49,7 @@ export default function Sessions({ token }) {
               <td>{s.score}</td>
               <td>{s.mistakes}</td>
               <td>{s.duration}</td>
-              <td>{new Date(s.created_at).toLocaleString()}</td>
+              <td>{formatTimestampToLocal(s.created_at)}</td>
             </tr>
           ))}
         </tbody>

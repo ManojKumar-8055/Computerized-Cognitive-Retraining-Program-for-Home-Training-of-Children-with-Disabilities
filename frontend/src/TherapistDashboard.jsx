@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { listUsers, analyzeUser, listSessions } from "./api";
+import { formatTimestampToLocal } from "./services/date";
 
 export default function TherapistDashboard({ token, logout }) {
   const [users, setUsers] = useState([]);
@@ -39,7 +40,7 @@ export default function TherapistDashboard({ token, logout }) {
 
   return (
     <div className="container" style={{ textAlign: "center" }}>
-      <h2>Therapist </h2>
+      <h2>Therapist Dashboard</h2>
       <p>Monitor players and analyze patterns</p>
 
       <div style={{ marginBottom: 12 }}>
@@ -82,7 +83,7 @@ export default function TherapistDashboard({ token, logout }) {
                 <td style={{ padding: 6 }}>{s.game_type}</td>
                 <td style={{ padding: 6 }}>{s.score}</td>
                 <td style={{ padding: 6 }}>{s.mistakes}</td>
-                <td style={{ padding: 6 }}>{new Date(s.created_at).toLocaleString()}</td>
+                <td style={{ padding: 6 }}>{formatTimestampToLocal(s.created_at)}</td>
               </tr>
             ))}
           </tbody>

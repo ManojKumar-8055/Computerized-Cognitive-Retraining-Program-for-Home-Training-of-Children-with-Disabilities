@@ -111,14 +111,15 @@ def list_sessions():
         rows = GameSession.query.filter_by(user=username).order_by(GameSession.created_at.desc()).limit(200).all()
 
     out = [{
-        'id': r.id,
-        'user': r.user,
-        'game_type': r.game_type,
-        'score': r.score,
-        'duration': r.duration,
-        'mistakes': r.mistakes,
-        'created_at': r.created_at.isoformat()
-    } for r in rows]
+    'id': r.id,
+    'user': r.user,
+    'game_type': r.game_type,
+    'score': r.score,
+    'duration': r.duration,
+    'mistakes': r.mistakes,
+    # format as UTC ISO with Z (created_at stored using utcnow())
+    'created_at': r.created_at.strftime("%Y-%m-%dT%H:%M:%SZ")
+} for r in rows]
     return jsonify(out)
 
 # ----------------- Therapist Tools -----------------
@@ -131,9 +132,14 @@ def list_users():
 
     users = User.query.order_by(User.created_at.desc()).all()
     return jsonify([
-        {'id': u.id, 'username': u.username, 'role': u.role, 'created_at': u.created_at.isoformat()}
-        for u in users
-    ])
+    {
+      'id': u.id,
+      'username': u.username,
+      'role': u.role,
+      'created_at': u.created_at.strftime("%Y-%m-%dT%H:%M:%SZ")
+    }
+    for u in users
+])
 
 
 @app.route('/api/analysis/<username>', methods=['GET'])
