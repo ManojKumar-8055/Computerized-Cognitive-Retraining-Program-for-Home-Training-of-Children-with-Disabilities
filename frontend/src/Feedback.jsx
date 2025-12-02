@@ -56,7 +56,7 @@ export default function Feedback({ visible = false, onClose }) {
     const subject = encodeURIComponent("Home-Cogniplay Feedback");
     const body = encodeURIComponent(`Rating: ${rating}\n\nComment:\n${comment}`);
 
-    window.location.href = `mailto:manojkurubhas0622@gmail.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:homecogniplay009@outlook.com?subject=${subject}&body=${body}`;
   }
 
   if (!visible) return null;
