@@ -43,7 +43,7 @@ It includes a **Parent/Student dashboard**, **Therapist dashboard**, and **compl
 - Users can submit in-app feedback  
 - Feedback stored locally in browser  
 - Optional email support  
-  - Sends feedback to **manojkurubhas0622@gmail.com**
+  - Sends feedback to **homecogniplay009@outlook.com**
 
 ---
 
@@ -154,7 +154,7 @@ Auth token in LocalStorage
 
 📬 Contact
 For queries, improvements, or collaborations:
-📧 manojkurubhas0622@gmail.com
+📧 homecogniplay009@outlook.com
 
 📄 License
 This project uses the MIT License.
